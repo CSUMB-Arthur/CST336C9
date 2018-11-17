@@ -60,10 +60,18 @@
                             <td class="inputcol">
                                 <fieldset>
                                     <legend>Font options</legend>
-                                    <input id="multiple" type="checkbox" name="bold" <?php echo $bold;?> />Bold<br/>
-                                    <input id="multiple" type="checkbox" name="italic" <?php echo $italic;?> />Italics<br/>
-                                    <input id="multiple" type="checkbox" name="underline" <?php echo $underline;?> />Underline<br/>
-                                    <input id="multiple" type="checkbox" name="strikethrough" <?php echo $strikethrough;?> />Strikethrough<br/>
+                                    <input id="bold" type="checkbox" name="bold" <?php echo $bold;?> />
+                                    <label for="bold">Bold</label><br/>
+                                    
+                                    <input id="italic" type="checkbox" name="italic" <?php echo $italic;?> />
+                                    <label for="italic">Italics</label><br/>
+                                    
+                                    <input id="underline" type="checkbox" name="underline" <?php echo $underline;?> />
+                                    <label for="underline">Underlined</label><br/>
+                                    
+                                    <input id="strikethrough" type="checkbox" name="strikethrough" <?php echo $strikethrough;?> />
+                                    <label for="strikethrough">Strikethrough</label><br/>
+                                    
                                 </fieldset>
                             </td>
                             <td id="outputcol" rowspan="3">
@@ -114,7 +122,7 @@
                                         
                                         for ($i = 0; $i < 3; $i++){
                                             $checked = ($family == $families[$i])?'checked':'';
-                                            echo "<input id='exclusive' type='radio' name='family' value='$families[$i]'$checked/>" . ucfirst($families[$i]) . "<br/>\n";
+                                            echo "<input id='$families[$i]' type='radio' name='family' value='$families[$i]'$checked/> <label for='$families[$i]'>" . ucfirst($families[$i]) . "</label><br/>\n";
                                             //echo $stuff[$i];
                                             //echo $i ."<br/>";
                                         }
