@@ -75,15 +75,15 @@
                                     echo "style='";
                                     echo "background-color:$color2; ";
                                     echo "font-family:$family; ";
+                                    if ($underline == 'checked'){ echo 'text-decoration: underline;';}
                                     echo "'>";
                                     if ($bold == 'checked'){ echo '<strong>';}
                                     if ($italic == 'checked'){ echo '<em>';}
-                                    if ($underline == 'checked'){ echo '<ul>';}
+                                    
                                     if ($strikethrough == 'checked'){ echo '<del>';}
                                     echo $text;
                                     if ($bold == 'checked'){ echo '</strong>';}
                                     if ($italic == 'checked'){ echo '</em>';}
-                                    if ($underline == 'checked'){ echo '</ul>';}
                                     if ($strikethrough == 'checked'){ echo '</del>';}
                                     ?>
                                     </font>
