@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<!--
+
+First Website
+and comment
+in html
+(comments can span multiple lines)
+
+-->
+
+<!-- This is the head -->
+<!-- All styles and javascript go inside the head -->
+    <head>
+        <meta charset="utf-8"/>
+        <title>Arthur Thong: Personal Website</title>
+        <link href="css/styles.css" rel ="stylesheet" type="text/css"/>
+        <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
+    </head>
+<!-- closing head -->
+
+    <!-- This is the body -->
+    <!-- This is where we place the content of our website -->
+    <body>
+        <header>
+            <h1>Making a basic game</h1>
+        </header>
+        <nav>
+            <hr width="50%"/>
+            <a href="index.html">Intro</a>
+            <a href="rules.html">Rules</a>
+            <a id="currentpage" href="controls.html">Controls</a>
+            <a href="logic.html">Logic</a>
+            <a href="drawing.html">Drawing</a>
+        </nav>
+        <br/><br/>
+        <h2>Controls and Input Handling</h2>
+        <div id="content">
+        Before we get started on setting up the control scheme, we should remember these two rules:
+            <ul id="rules">
+                <li>The snake is constantly moving, one tile at a time</li>
+                <li>The snake cannot travel backwards directly into itself, thus ending the game (it can however, make two 90 degree turns to move backwards).</li>
+            </ul>
+        Since Snake is a simple two dimensional game, there are only 4 directions the player could be moving in at any given moment. It helps with readability to establish the following global constants.
+        <br>
+<span class="codeblock"><blockquote><pre><code>int UP = 0;
+int DOWN = 1;
+int LEFT = 2;
+int RIGHT = 3;</code></pre></blockquote></span>
+So that we do not need to remember the actual values when writing comparisons, and can instead write:
+<span class="codeblock"><blockquote><pre><code>if (Direction == UP and InputDirection != DOWN){
+    Direction = InputDirection;
+}
+</code></pre></blockquote></span>
+When checking the input.
+(But also, there's a better way to do this, involving modulus math, and only a single conditional statement, instead of 4, but that wouldn't make this a simple guide if I had to explain it.)
+<br>
+<br>
+Anyways, onto the basics of getting keyboard input. One of the easiest ways to do so, would be to first import conio.h and use two functions kbhit() and getch().
+<span class="codeblock"><blockquote><pre><code>#include &lt;stdio.h&gt;
+#include &lt;conio.h&gt;
+void main(){
+    while (1){
+        int input;
+        if (kbhit()){
+            input = getch();
+            printf("%d\n",input);
+        }
+    }
+}
+</code></pre></blockquote></span>
+The above code is just an infinite loop that tells you what key you've just pressed.
+<br>
+<img id="getch" src="img/getch.png" alt="image of the code being run"/>
+<br>
+The results for pressing up, down, left, and right respectively. Notice how there is always a preceeding 224. This is special to arrow keys, and needs to be deal with.
+<br>
+<br>
+As the arrow keys will return 72, 80, 75, and 77 for the keys up, down, left, right instead of 0, 1, 2, 3. We need to reassign the values with a simple switch case statement to make it consistent with the constants we established earlier.
+<span class="codeblock"><blockquote><pre><code>int GetInput(){
+    int input;
+    if (kbhit()){
+        input = getch();
+        input = getch(); //We need to do this twice, as it returns 224 the first time for arrow key inputs
+        //left =75, up = 72,down = 80, right = 77
+        switch(input){
+            case 75:
+                input = LEFT;
+            break;
+            case 77:
+                input = RIGHT;
+            break;
+            case 72:
+                input = UP;
+            break;
+            case 80:
+                input = DOWN;
+            break;
+            }
+        }
+    }
+    return input;
+}
+</code></pre></blockquote></span>
+<br>
+<br>
+        
+        </div>
+        <!-- This is the footer -->
+        <!-- The footer goes inside the body but not always -->
+        <footer>
+            <hr>
+            <img id="logo" src="img/csumblogo.png" alt="CSUMB logo of an otter"/>
+            CST336 2018&copy;Thong<br/>
+            <strong>Disclaimer:</strong> The information on this website is ficti.
+            <br/>
+            It is used for academic purposes only.
+            
+            
+        </footer>
+        <!-- closing footer -->
+        
+    </body>
+    <!-- closing body -->
+
+</html>

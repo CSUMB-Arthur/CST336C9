@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<!--
+
+First Website
+and comment
+in html
+(comments can span multiple lines)
+
+-->
+
+<!-- This is the head -->
+<!-- All styles and javascript go inside the head -->
+    <head>
+        <meta charset="utf-8"/>
+        <title>Pointless Stuff</title>
+        <link href="css/styles.css" rel ="stylesheet" type="text/css"/>
+        <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
+    </head>
+<!-- closing head -->
+
+    <!-- This is the body -->
+    <!-- This is where we place the content of our website -->
+    <body>
+        <header>
+            <h1>Making a basic game</h1>
+        </header>
+        <nav>
+            <hr width="50%"/>
+            <a href="index.html">Intro</a>
+            <a href="rules.html">Rules</a>
+            <a href="controls.html">Controls</a>
+            <a id="currentpage" href="logic.html">Logic</a>
+            <a href="drawing.html">Drawing</a>
+        </nav>
+        <br/><br/>
+        <h2>Main Logic and Variables</h2>
+        <div id="content">
+        And now onto the main component and what makes everything tick: the logic.
+        <br>
+        In making snake, we can use a 2 dimensional array of integers to represent segments of the snake, and food pellets. A way to go about doing this is by using -1 as a value for a pellet, 0 as an empty space, and anything 1 and above as a snake.
+        <img id="IntroImg" src="img/snakegame1.png" alt="image of the game Snake"/>
+        This image we saw on the intro page can be represented roughly as
+
+        <span class="codeblock"><blockquote><pre><code>00000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000123456789<em>10</em>00000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000
+....
+0000000000000000000000000000000000000000000000000000000000000000000000000000-1000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000
+        </code></pre></blockquote></span>
+        <br>
+        <br>
+        The head of the snake, as it moves, will set the value of a tile to the integer SnakeLength. This means it'll take that many "turns" for it to expire, which gives the illusion of the snake moving. 
+        <br>When growing the snake, we can just increment SnakeLength and all body tiles (anything >= 1), by a fixed value GrowLength.
+        The snake head can be represented using the following variables.
+        <span class="codeblock"><blockquote><pre><code>int X;
+int Y;
+int Direction;
+int SnakeLength</code></pre></blockquote></span>
+Our mainloop will consist of the following components:
+        <ul>
+            <li>Get player directional input (if it exists)</li>
+            <li>Check if input is valid</li>
+            <li>Update Direction value if necessary</li>
+            <li>Move snake according to direction value</li>
+            <li>Check if the new location contains the boundary wall, or a body segment</li>
+            <li>If so, end the game</li>
+            <li>Check if the location contains food</li>
+            <li>If so, update body segment tiles and SnakeLength variable</li>
+            <li>Draw the screen on the console</li>
+        </ul>
+        </div>
+        <div>
+            <Strong>References:</Strong>
+            <br/>
+            <ul class="references">
+                <li>Me</li>
+            </ul>
+        </div>
+        <!-- This is the footer -->
+        <!-- The footer goes inside the body but not always -->
+        <footer>
+            <hr>
+            <img id="logo" src="img/csumblogo.png" alt="CSUMB logo of an otter"/>
+            CST336 2018&copy;Thong<br/>
+            <strong>Disclaimer:</strong> The information on this website may not be accurate
+            <br/>
+            This website was created as an academic activity.
+            
+            
+        </footer>
+        <!-- closing footer -->
+        
+    </body>
+    <!-- closing body -->
+
+</html>

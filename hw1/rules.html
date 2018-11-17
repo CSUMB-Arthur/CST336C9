@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<!--
+
+First Website
+and comment
+in html
+(comments can span multiple lines)
+
+-->
+
+<!-- This is the head -->
+<!-- All styles and javascript go inside the head -->
+    <head>
+        <meta charset="utf-8"/>
+        <title>Arthur Thong: Personal Website</title>
+        <link href="css/styles.css" rel ="stylesheet" type="text/css"/>
+        <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
+    </head>
+<!-- closing head -->
+
+    <!-- This is the body -->
+    <!-- This is where we place the content of our website -->
+    <body>
+        <header>
+            <h1>Making a basic game</h1>
+        </header>
+        <nav>
+            <hr width="50%"/>
+            <a href="index.html">Intro</a>
+            <a id="currentpage" href="rules.html">Rules</a>
+            <a href="controls.html">Controls</a>
+            <a href="logic.html">Logic</a>
+            <a href="drawing.html">Drawing</a>
+        </nav>
+        <br/><br/>
+        <h2>Rules</h2>
+    
+        <div id="content">
+            <img src="img/uselessimage.png" alt="I'm not sure why we have an image quota."/>
+            <br/>
+            Snake is a relatively simple game, where the player controls a snake using the arrow keys. The snake is aligned to the grid, and the goal is to continually consume fruits (by running them over).
+            <br/>
+            The rules of Snake are pretty simple<br/>
+            <ul id="rules">
+                <li>Hitting a wall (the edge of the screen) ends the game</li>
+                <li>Touching your own tail/body ends the game</li>
+                <li>Eating a fruit causes your body to grow</li>
+                <li>Eating a fruit causes another one to spawn, in an unoccupied space.</li>
+                <li>The snake is constantly moving, one tile at a time</li>
+                <li>The snake cannot travel backwards directly into itself, thus ending the game (it can however, make two 90 degree turns to turn around).</li>
+            </ul>
+
+        </div>
+        <div>
+            <Strong>References:</Strong>
+            <br/>
+            <ul class="references">
+                <li>Me</li>
+            </ul>
+        </div>
+        <!-- This is the footer -->
+        <!-- The footer goes inside the body but not always -->
+        <footer>
+            <hr>
+            <img id="logo" src="img/csumblogo.png" alt="CSUMB logo of an otter"/>
+            CST336 2018&copy;Thong<br/>
+            <strong>Disclaimer:</strong> The information on this website is ficti.
+            <br/>
+            It is used for academic purposes only.
+            
+            
+        </footer>
+        <!-- closing footer -->
+        
+    </body>
+    <!-- closing body -->
+
+</html>
