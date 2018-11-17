@@ -14,22 +14,54 @@
             <h1>OtterMart Product Search</h1>
             
             <form>
-                Product: <input type ="text" name="product"/>
-                <br/>
-                Category: 
-                    <select name="category"> 
-                        <option value="">Select One</option>
-                        <?= displayCategories()?>
-                    </select>
-                <br/>
-                Price: $<input type="text" name="priceFrom" size="7" placeholder="min"/> to $<input type="text" name="priceTo" size="7" placeholder="max"/>
-                <br/>
-                Order By:
-                <br/>
-                <input type="radio" name="orderBy" value="price"/ checked> Price <br/>
-                <input type="radio" name="orderBy" value="name"/> Name <br/>
-                <br/><br/>
-                <input type="submit" name="searchForm" value="Search"/>
+                <table id='inputarea'>
+                    <tr>
+                        <td class="inputdescription">
+                            Product
+                        </td>
+                        <td class="inputs">
+                            <input type ="text" name="product"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="inputdescription">
+                            Category
+                        </td>
+                        <td >
+                            <select name="category"> 
+                            <option value="">Select One</option>
+                            <?= displayCategories()?>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="inputdescription">
+                            Price
+                        </td>
+                        <td>
+                            <input class="priceinputs" type="text" name="priceFrom" size="7" placeholder="min"/> to <input class="priceinputs" type="text" name="priceTo" size="7" placeholder="max"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="inputdescription">
+                            Order By
+                        </td>
+                        <td>
+                            <input type="radio" name="orderBy" value="price"/ checked> Price
+                            <input type="radio" name="orderBy" value="name"/> Name
+                        </td>
+                    </tr>
+                        
+                    <tr>
+                        <td colspan="2">
+                            <div id='searchwrapper'>
+                                <input id='searchbutton' type="submit" name="searchForm" value="Search"/>
+                            </div>
+                            
+                        </td>
+                    </tr>
+                </table>
+                
             </form>
             
             <br/>

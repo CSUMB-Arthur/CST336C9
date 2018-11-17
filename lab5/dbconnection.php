@@ -36,7 +36,7 @@
     function displaySearchResults(){
         global $conn;
         if (isset($_GET['searchForm'])){
-            echo "<h3>Products Found:</h3>";
+            echo "<h3 id='returnmessage'>Products Found:</h3>";
             $namedParams = array();
             
             $sql="SELECT * FROM  om_product WHERE 1";
@@ -70,12 +70,13 @@
             $records = $stmt-> fetchAll(PDO::FETCH_ASSOC);
             
             foreach($records as $record){
-                echo "<a href=\"purchasehistory.php?productId=".$record['productId']."\">History</a> ";
-                echo $record["productName"] . " " . $record["recordDescription"] . " $" . $record["price"] . "<br/><br/>";
+                echo "<div class='itemblock'>";
+                echo "<span class='item'>".$record["productName"] . " " . $record["recordDescription"] . "</span>"."<a class='history' href=\"purchasehistory.php?productId=".$record['productId']."\">(History)</a> "."<br/> <span class='itemprice'>$" . $record["price"] . "</span><br/><br/>";
+                echo "</div>";
             }
         }
         else{
-            echo "Type in a search entry";
+            echo "<h3 id='returnmessage'>Type in a search entry</h3>";
         }
     }
 ?>

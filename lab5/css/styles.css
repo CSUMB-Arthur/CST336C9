@@ -1,3 +1,42 @@
+    h1{
+        text-align: center;
+    }
+    .priceinputs{
+        text-align: right;
+    }
+    .inputdescription{
+        text-align: justify;
+        font-size: 1.5em;
+    }
+    #inputarea{
+        display: block;
+    }
     body{
+        background-color: lightyellow;
+    }
+    .item{
+        font-size: 1.25em;
+        font-weight: bold;
+    }
+    .itemprice{
+        font-style: italic;
+    }
+    #searchwrapper{
+        display: flex;
+        align-items:center;
+        justify-content: center;
+    }
+    #searchbutton{
+        text-align: center;
+        margin: auto;
+        font-size: 1.25em;
+        width:75%;
+    }
 
+    #returnmessage{
+        font-size: 1.75em;
+    }
+    
+    .itemblock{
+        margin-left: 50px;
     }
