@@ -75,7 +75,7 @@
                                     echo "style='";
                                     echo "background-color:$color2; ";
                                     echo "font-family:$family; ";
-                                    echo "'";
+                                    echo "'>";
                                     if ($bold == 'checked'){ echo '<strong>';}
                                     if ($italic == 'checked'){ echo '<em>';}
                                     if ($underline == 'checked'){ echo '<ul>';}
