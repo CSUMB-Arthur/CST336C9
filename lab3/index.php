@@ -35,7 +35,7 @@
                 <table>
                     <tr>
 
-                        <td rowspan="3">
+                        <td colspan="3">
                             <input id="formtextbox" type="text" name="keyword" placeholder="Keyword"/>
                         </td>
                     </tr>
