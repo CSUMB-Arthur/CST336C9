@@ -22,9 +22,6 @@ function updateBoard(){
     for (var letter of board){
         document.getElementById("word").innerHTML += letter + " ";
     }
-    
-    //$("#hintArea").append("<br/>");
-    $("#hintArea").append("<span class='hint'>"+selectedHint+"</span>");
 }
 
 function updateWord(positions, letter){
@@ -108,6 +105,7 @@ $(".letter").click(
 $(".hintBtn").click(
     function(){
         remainingGuesses -= 1;
+        $("#hintArea").append("<span class='hint'>"+selectedHint+"</span>");
         $(".hint").show();
         $(".hintBtn").hide();
         updateMan();
