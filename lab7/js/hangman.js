@@ -72,7 +72,8 @@ function checkLetters(letter){
 }
 
 function endGame(win){
-    $("letters").hide();
+    $("#letters").hide();
+    $("#hintArea").hide();
     if (win){
         $("#won").show();
     }
