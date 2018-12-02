@@ -35,6 +35,7 @@
     }
     #Player{
         background-color:yellow;
+        z-index: 5;
     }
     .button{
         cursor:hand;

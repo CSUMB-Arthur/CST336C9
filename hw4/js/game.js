@@ -47,8 +47,8 @@ function initInputs(){
 
 function createWall(left, top, right, bottom){
     var wallid = "wall"+walls.length;
-    var height = bottom-top;
-    var width = right-left;
+    var height = bottom-top + 1;
+    var width = right-left +1;
     var wall = {id:wallid, x1:left, y1:top, x2:right, y2:bottom};
     walls.push(wall);
     
@@ -68,7 +68,7 @@ function clearWalls(){
     
 function wallAdjacent(obj,direction){
     for (var wall of walls){
-        if (wall.x2 == obj.X && direction == "left"){
+        if (wall.x2 == obj.X-1 && direction == "left"){
             return true;
         }
         
@@ -79,9 +79,9 @@ function wallAdjacent(obj,direction){
 
     return false;
 }
-    
+
 function updateCameraPosition(){
-    var cameraTargetX = (playerObj.X+playerObj.width/2) - 400 + 3.5*playerObj.Xv;
+    var cameraTargetX = (playerObj.X+playerObj.width/2) - 400 + 4.5*playerObj.Xv;
     var deltaX = cameraTargetX-camera.X;
     camera.X = camera.X + .30 * deltaX;
     
@@ -110,19 +110,27 @@ function getIndexOfSmallestValidTime(somearray){
     var minIndex = -1;
     for (var index in somearray){
         if (somearray[index] >= 0 && somearray[index] <= 1){
-            if (somearray[index] < min){
+            if (somearray[index] <= min){
+                if (somearray[index] == min){
+                    console.log("Two equal T values at "+min+" "+ somearray[index]);
+                }
                 minIndex = index;
                 min = somearray[index];
             }
+            
         }
     }
     return minIndex;
 }
 
+function getIntersectTime(distance, speed){
+    return distance/speed;
+}
+
 function minkowskiRect(A,B){
     var m = {x1:0,y1:0,x2:0,y2:0}
-    m.x1 = B.x1 - A.width;
-    m.y1 = B.y1 - A.height;
+    m.x1 = B.x1 - (A.width -1);
+    m.y1 = B.y1 - (A.height -1);
     m.x2 = B.x2;
     m.y2 = B.y2;
     return m;
@@ -138,10 +146,10 @@ function getCollisions(){
     //More iterations are possible, but not necessary if all objects use rectangular bounding boxes
     //Typically, it would run several (3-4) iterations, or until baseTime == 1.00
     //Ensures player cannot pass through walls, regardless of velocity and size.
-    for (var i = 0; i < 3; i++){
-        var x3 = playerObj.X+1;
+    for (var i = 0; i < 2; i++){
+        var x3 = playerObj.X;
         var x4 = playerObj.X+playerObj.width-1;
-        var y3 = playerObj.Y+1;
+        var y3 = playerObj.Y;
         var y4 = playerObj.Y+playerObj.height-1;
         
         var Xv = Math.round(playerObj.Xv);
@@ -177,14 +185,16 @@ function getCollisions(){
             &&  y1 <= y4 && y2 >= y3){
                 selectedWalls.push(wall);
                 //$("#"+wall.id).css("background-color","red");
-            }
+            //}
             //else{
                 //$("#"+wall.id).css("background-color","white");
-            //}
+            }
      
         }
         
         var timeVal = [];
+        var timeValAdj = [];
+        //var 
         var collisionType = [];
         var t;
         
@@ -197,18 +207,43 @@ function getCollisions(){
             var y2 = m.y2;
             
             if (playerObj.Xv != 0){
-                timeVal.push((x1-playerObj.X)/Xv)
-                collisionType.push("h");
-                timeVal.push((x2-playerObj.X)/Xv)
-                collisionType.push("h");
+                t = (x1-playerObj.X)/Xv;
+                var intersectY = playerObj.Y + (1-baseTime)*t*Yv;
+                if (intersectY >= y1 && intersectY <= y2){
+                    timeVal.push(t)
+                    t = (x1-playerObj.X-1)/Xv;
+                    timeValAdj.push(t);
+                    collisionType.push("h");
+                }
+                t = (x2-playerObj.X)/Xv;
+                intersectY = playerObj.Y + (1-baseTime)*t*Yv;
+                if (intersectY >= y1 && intersectY <= y2){
+                    timeVal.push(t);
+                    t = (x2-playerObj.X+1)/Xv;
+                    timeValAdj.push(t);
+                    collisionType.push("h");
+                }
+                
             }
             
             
             if (playerObj.Yv != 0){
-                timeVal.push((y1-playerObj.Y)/Yv)
-                collisionType.push("v");
-                timeVal.push((y2-playerObj.Y)/Yv)
-                collisionType.push("v");
+                t = (y1-playerObj.Y)/Yv;
+                var intersectX = playerObj.X + (1-baseTime)*t*Xv;
+                if (intersectX >= x1 && intersectX <= x2){
+                    timeVal.push(t);
+                    t = (y1-playerObj.Y-1)/Yv;
+                    timeValAdj.push(t);
+                    collisionType.push("v");
+                }
+                t = (y2-playerObj.Y)/Yv;
+                intersectX = playerObj.X + (1-baseTime)*t*Xv;
+                if (intersectX >= x1 && intersectX <= x2){
+                    timeVal.push(t);
+                    t = (y2-playerObj.Y+1)/Yv;
+                    timeValAdj.push(t);
+                    collisionType.push("v");
+                }
             }
             
         }
@@ -216,8 +251,10 @@ function getCollisions(){
         var index = getIndexOfSmallestValidTime(timeVal);
         //Evaluate "first" collision, i.e. the collision with the lowest time value from 0-1.
         if (index != -1){
-            t = timeVal[index];
-            
+            t = timeValAdj[index];
+            // Will place object at collision point, which means inside the object, overlapping by 1 pixel
+            // Needs something to offset this one pixel intersection
+
             playerObj.X = Math.round(playerObj.X+(1-baseTime)*t*Xv);
             playerObj.Y = Math.round(playerObj.Y+(1-baseTime)*t*Yv);
             
@@ -241,7 +278,8 @@ function getCollisions(){
             break;
         }
     }
-
+    playerObj.X = Math.round(playerObj.X);
+    playerObj.Y = Math.round(playerObj.Y);
     //Clears and updates the standingOn and nextTo arrays of the player
     playerObj.standingOn.length = 0;
     playerObj.nextTo.length = 0;
@@ -255,9 +293,9 @@ function getCollisions(){
         y2 = wall.y2;
         
         //One pixel away from the bottom of the player.
-        x3 = playerObj.X+1;
+        x3 = playerObj.X;
         x4 = playerObj.X+playerObj.width-1;
-        y3 = playerObj.Y+1;
+        y3 = playerObj.Y;
         y4 = playerObj.Y+playerObj.height;
         
         if (x1 <= x4 && x2 >= x3
@@ -268,7 +306,7 @@ function getCollisions(){
         //One pixel left/right of the player
         x3 = playerObj.X;
         x4 = playerObj.X+playerObj.width;
-        y3 = playerObj.Y+1;
+        y3 = playerObj.Y;
         y4 = playerObj.Y+playerObj.height-1;
         
         if (x1 <= x4 && x2 >= x3
@@ -284,9 +322,9 @@ function getCollisions(){
     x2 = exit.x2;
     y2 = exit.y2;
 
-    x3 = playerObj.X+1;
+    x3 = playerObj.X;
     x4 = playerObj.X+playerObj.width-1;
-    y3 = playerObj.Y+1;
+    y3 = playerObj.Y;
     y4 = playerObj.Y+playerObj.height-1;
     
     if (x1 <= x4 && x2 >= x3
@@ -428,7 +466,7 @@ function initStage1(){
     createWall(0,0,1,800);
     createWall(1599,0,1600,800);
 
-    createWall(0,275,1300,276);
+    createWall(0,275,1300,275);
     
     createWall(375,250,475,325);
     
@@ -445,7 +483,7 @@ function initStage2(){
     createWall(0,0,1,800);
     createWall(1599,0,1600,800);
 
-    createWall(0,275,1300,276);
+    createWall(0,275,1300,275);
     
     createWall(375,100,400,325);
     
@@ -463,7 +501,7 @@ function initStage3(){
     createWall(0,0,1,800);
     createWall(1599,0,1600,800);
 
-    createWall(0,500,1600,501);
+    createWall(0,500,1600,500);
     
     createWall(400,425,425,450);
     for (var i = 1; i < 4; i++){
@@ -499,8 +537,8 @@ var camera = {X:0,Y:0};
 
 //Create player
 $("#gameWindow").append("<img id='Player' class='object' src='img/transparent.gif'>");
-$("#Player").css("width","32px");
-$("#Player").css("height","32px");
+$("#Player").css("width",playerObj.width+"px");
+$("#Player").css("height",playerObj.height+"px");
 playerObj.Walljumping = 0;
 
 //Create exit img
