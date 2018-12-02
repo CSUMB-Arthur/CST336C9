@@ -7,13 +7,12 @@ function updateImgPositions(){
         $("#"+wall.id).css("left",Math.round(wall.x1-camera.X));
         $("#"+wall.id).css("top",Math.round(wall.y1-camera.Y));
     }
-}
-
-function drawUI(){
     
+    $("#exit").css("left",Math.round(exit.x1-camera.X));
+    $("#exit").css("top",Math.round(exit.y1-camera.Y));
 }
 
-function createObj(imgPath, X, Y){
+function updateUI(){
     
 }
 
@@ -45,10 +44,6 @@ function initInputs(){
             }
         )
 }
-//window.onLoad = init();
-function createEnemy(){
-    
-}
 
 function createWall(left, top, right, bottom){
     var wallid = "wall"+walls.length;
@@ -61,9 +56,15 @@ function createWall(left, top, right, bottom){
     $("#"+wallid).css("left",left);
     $("#"+wallid).css("top",top);
     $("#"+wallid).css("background-color","white");
-    console.log("Wall created: "+wall.id+","+wall.x2+","+wall.y1+","+wall.x2+","+wall.y2);
+    console.log("Wall created: "+wall.id+","+wall.x1+","+wall.y1+","+wall.x2+","+wall.y2);
 }
 
+function clearWalls(){
+    for (var wall of walls){
+        $("#"+wall.id).remove();
+    }
+    walls.length = 0;
+}
     
 function wallAdjacent(obj,direction){
     for (var wall of walls){
@@ -79,22 +80,33 @@ function wallAdjacent(obj,direction){
     return false;
 }
     
-
-    
 function updateCameraPosition(){
     var cameraTargetX = (playerObj.X+playerObj.width/2) - 400 + 3.5*playerObj.Xv;
     var deltaX = cameraTargetX-camera.X;
     camera.X = camera.X + .30 * deltaX;
     
+    var cameraTargetY = (playerObj.Y+playerObj.height/2) - 300
     
-    camera.Y = (playerObj.Y+playerObj.height/2) - 300;
+    if (keystates[3] || keystates[5]){
+        //up
+        if (keystates[3]){
+            cameraTargetY += -200;
+        }
+        
+        //down
+        if (keystates[5]){
+            cameraTargetY += +200;
+        }
+    }
+    var deltaY = cameraTargetY-camera.Y;
+    camera.Y = camera.Y + .40 * deltaY;
 }
 
 function getIndexOfSmallestValidTime(somearray){
     if (somearray.length <= 0){
         return -1;
     }
-    var min = 1;
+    var min = 2;
     var minIndex = -1;
     for (var index in somearray){
         if (somearray[index] >= 0 && somearray[index] <= 1){
@@ -106,8 +118,6 @@ function getIndexOfSmallestValidTime(somearray){
     }
     return minIndex;
 }
-
-
 
 function minkowskiRect(A,B){
     var m = {x1:0,y1:0,x2:0,y2:0}
@@ -128,7 +138,7 @@ function getCollisions(){
     //More iterations are possible, but not necessary if all objects use rectangular bounding boxes
     //Typically, it would run several (3-4) iterations, or until baseTime == 1.00
     //Ensures player cannot pass through walls, regardless of velocity and size.
-    for (var i = 0; i < 2; i++){
+    for (var i = 0; i < 3; i++){
         var x3 = playerObj.X+1;
         var x4 = playerObj.X+playerObj.width-1;
         var y3 = playerObj.Y+1;
@@ -210,6 +220,7 @@ function getCollisions(){
             
             playerObj.X = Math.round(playerObj.X+(1-baseTime)*t*Xv);
             playerObj.Y = Math.round(playerObj.Y+(1-baseTime)*t*Yv);
+            
             baseTime += (1-baseTime)*t;
             if (collisionType[index] == "h"){
                 //Collision from horizontal movement first detected
@@ -221,7 +232,9 @@ function getCollisions(){
                 collision = "vertical";
                 playerObj.Yv = 0;
             }
+            
         }
+        //No collisions this iteration
         else{
             playerObj.X = playerObj.X + (1-baseTime)*Xv;
             playerObj.Y = playerObj.Y + (1-baseTime)*Yv;
@@ -236,16 +249,16 @@ function getCollisions(){
     //Determine which walls the player is standing on, or next to, and store for
     //later use
     for (var wall of walls){
-        var x1 = wall.x1;
-        var y1 = wall.y1;
-        var x2 = wall.x2;
-        var y2 = wall.y2;
+        x1 = wall.x1;
+        y1 = wall.y1;
+        x2 = wall.x2;
+        y2 = wall.y2;
         
         //One pixel away from the bottom of the player.
-        var x3 = playerObj.X+1;
-        var x4 = playerObj.X+playerObj.width-1;
-        var y3 = playerObj.Y+1;
-        var y4 = playerObj.Y+playerObj.height;
+        x3 = playerObj.X+1;
+        x4 = playerObj.X+playerObj.width-1;
+        y3 = playerObj.Y+1;
+        y4 = playerObj.Y+playerObj.height;
         
         if (x1 <= x4 && x2 >= x3
         &&  y1 <= y4 && y2 >= y3){
@@ -253,16 +266,36 @@ function getCollisions(){
         }
         
         //One pixel left/right of the player
-        var x3 = playerObj.X;
-        var x4 = playerObj.X+playerObj.width;
-        var y3 = playerObj.Y+1;
-        var y4 = playerObj.Y+playerObj.height-1;
+        x3 = playerObj.X;
+        x4 = playerObj.X+playerObj.width;
+        y3 = playerObj.Y+1;
+        y4 = playerObj.Y+playerObj.height-1;
         
         if (x1 <= x4 && x2 >= x3
         &&  y1 <= y4 && y2 >= y3){
-            playerObj.nextTo.push(wall)
+            playerObj.nextTo.push(wall);
         }
     }
+    
+    //Determine collision for level exit.
+    
+    x1 = exit.x1;
+    y1 = exit.y1;
+    x2 = exit.x2;
+    y2 = exit.y2;
+
+    x3 = playerObj.X+1;
+    x4 = playerObj.X+playerObj.width-1;
+    y3 = playerObj.Y+1;
+    y4 = playerObj.Y+playerObj.height-1;
+    
+    if (x1 <= x4 && x2 >= x3
+        &&  y1 <= y4 && y2 >= y3){
+        exit.stagefunc();
+    }
+        
+    
+    
 }
 
 
@@ -287,15 +320,18 @@ function mainLoop(){
             console.log("Jump successful");
         }
         else{
-            //left, jump to the right
+            //wall on left, jump to the right
             if (keystates[2] && wallAdjacent(playerObj,"left")){
-                playerObj.Yv = -10.0
-                playerObj.Xv = 22.0
+                playerObj.Yv = -15.0
+                playerObj.Xv = 20.0
+                //Walljumping disables arrow momentum for 4 game ticks.
+                playerObj.Walljumping = 4;
             }
-            //right, jump to the left
+            //wall on right, jump to the left
             if (keystates[4] && wallAdjacent(playerObj,"right")){
-                playerObj.Yv = -10.0
-                playerObj.Xv = -22.0
+                playerObj.Yv = -15.0
+                playerObj.Xv = -20.0
+                playerObj.Walljumping = 4;
             }
         }
 
@@ -318,15 +354,19 @@ function mainLoop(){
     }
     
     //left
-    if (keystates[2]){
+    if (keystates[2] && playerObj.Walljumping == 0){
         playerObj.Xv += -2.4
     }
     //right
-    if (keystates[4]){
+    if (keystates[4] && playerObj.Walljumping == 0){
         playerObj.Xv += 2.4
     }
     
+    if (playerObj.Walljumping > 0){
+        playerObj.Walljumping--;
+    }
     
+    /*
     //up
     if (keystates[3]){
         playerObj.Yv += -3.0
@@ -335,7 +375,7 @@ function mainLoop(){
     if (keystates[5]){
         playerObj.Yv += 3.0
     }
-    
+    */
     
     playerObj.Xv = playerObj.Xv*0.85;
     playerObj.Yv = playerObj.Yv*0.85;
@@ -365,7 +405,23 @@ function mainLoop(){
     //$("#debugInfo").append("CanWallJump: "+canwalljump+"<br//");
 }
 
+function placeExit(X,Y, func){
+
+    exit.x1 = X;
+    exit.y1 = Y;
+    exit.x2 = X+96;
+    exit.y2 = Y+96;
+    exit.stagefunc = func;
+}
+
+function movePlayer(X,Y){
+    playerObj.X = X;
+    playerObj.Y = Y;
+}
+
 function initStage1(){
+    clearWalls();
+    movePlayer(100,100);
     createWall(0,0,1600,1);
     createWall(0,799,1600,800);
     
@@ -377,7 +433,53 @@ function initStage1(){
     createWall(375,250,475,325);
     
     createWall(575,200,675,325);
+    placeExit(1200,180, initStage2);
 }
+
+function initStage2(){
+    clearWalls();
+    movePlayer(100,100);
+    createWall(0,0,1600,1);
+    createWall(0,799,1600,800);
+    
+    createWall(0,0,1,800);
+    createWall(1599,0,1600,800);
+
+    createWall(0,275,1300,276);
+    
+    createWall(375,100,400,325);
+    
+    createWall(265,0,290,200);
+    
+    placeExit(1200,180, initStage3);
+}
+
+function initStage3(){
+    clearWalls();
+    movePlayer(100,100);
+    createWall(0,0,1600,1);
+    createWall(0,799,1600,800);
+    
+    createWall(0,0,1,800);
+    createWall(1599,0,1600,800);
+
+    createWall(0,500,1600,501);
+    
+    createWall(400,425,425,450);
+    for (var i = 1; i < 4; i++){
+        createWall(400+25*i,450-50*i,425+25*i,450);
+    }
+    
+    for (var i = 0; i < 7; i++){
+        createWall(600+125*i,275,650+125*i,300);
+    }
+    createWall(1400,275,1600,276);
+    
+    //createWall(265,0,290,200);
+    
+    placeExit(1500,180, initStage1);
+}
+
 
 //Program starting point, creates global variables, and initializes them
 var tickFreq = 30 //number of updates per second
@@ -391,12 +493,18 @@ var prevkeystates = [false,false,false,false,false,false];
 var playerObj = {'imgId': "Player", 'X':0,'Y':0,'Xv':0,'Yv':0,'width':32,'height':32,'standingOn':[],'nextTo':[]};
 var enemies = [];
 var walls = [];
+var exit = {};
 var collision = "none";
 var camera = {X:0,Y:0};
 
+//Create player
 $("#gameWindow").append("<img id='Player' class='object' src='img/transparent.gif'>");
 $("#Player").css("width","32px");
 $("#Player").css("height","32px");
+playerObj.Walljumping = 0;
+
+//Create exit img
+$("#gameWindow").append("<img id='exit' class='object' src='img/exit.png' height='96' width='96'>");
 
 initInputs();
 
