@@ -8,7 +8,6 @@
         background-color: black;
         position:relative;
         overflow: hidden;
-        float:left;
     }
     
     header{
@@ -20,20 +19,8 @@
         position: absolute;
     }
     
-    #cat{
-        width:120px;
-        left:10px;
-        top:10px;
-        z-index:2;
-    }
-    
-    #dog{
-        width:120px;
-        left:50px;
-        top:30px;
-        z-index:1;
-    }
     #Player{
+        visibility: hidden;
         background-color:yellow;
         z-index: 5;
     }
@@ -55,7 +42,75 @@
     }
     
     #debugInfo{
-        float: left;
+        position: absolute;
         width: 250px;
-        overflow: hidden;
+    }
+    
+    #Instructions{
+        position: absolute;
+        width: 250px;
+        top: 300px;
+    }
+    
+    .modebutton{
+        background-color: Transparent;
+        border: 1px solid gray;
+        color: white;
+        width: 100px;
+        height: 40px;
+        
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+    }
+    
+    .selected{
+        border: 2px solid red;
+    }
+    
+    .point{
+      height: 7px;
+      width: 7px;
+      background-color: #ff00ff;
+      border-radius: 50%;
+      display: inline-block;
+    
+        z-index: 3;
+    }
+    
+    .wall{
+        background-color:white;
+        z-index: 1;
+    }
+    
+    #spawn{
+        z-index: 2;
+        background-color: #ffff00;
+    }
+    
+    #generate{
+        text-align: center;
+        border: 1px solid black;
+        background-color: white;
+        width: 150px;
+        margin: 0 auto;
+    }
+    
+    #loadLevel{
+        text-align: center;
+        border: 1px solid black;
+        background-color: white;
+        width: 150px;
+        margin: 0 auto;
+    }
+    #levelcode{
+        width: 148px;
+        margin: 0 auto;
+        display: inline-block;
+    }
+    #loadarea{
+        width: 152px;
+        margin: 0 auto;
+        background-color:red;
     }

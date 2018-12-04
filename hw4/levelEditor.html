@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Level Editor</title>
+        <link  href="css/styles.css" rel="stylesheet" type="text/css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+ 
+
+    </head>
+    <body>
+        <div>
+            <header>
+                <h1>
+                    Game: level editor
+                </h1>
+                <h4>
+                    Javascript Edition
+                </h4>
+            </header>
+            
+            <div id="debugInfo">
+            </div>
+            
+            <div id="Instructions">
+                Left mouse button to drag objects <br/>
+                
+                Right mouse button to pan around <br/>
+                
+                Drag pink points to resize walls <br/>
+                
+                Del to delete walls <br/>
+            </div>
+            
+            <div id="gameWindow">
+                
+
+            </div>
+
+
+            <br/> 
+
+            <div id="loadarea"><input id="levelcode" type='text' placeholder="Load Code"><div id="loadLevel">Load</div></div>
+
+            
+            <div id="generate">Generate</div>
+            <div id="outputArea"></div>
+        </div>
+        <script src="js/editor.js"></script>
+    </body>
+</html>

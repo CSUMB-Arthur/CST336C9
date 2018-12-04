@@ -1,19 +1,31 @@
 function updateImgPositions(){
-    $("#Player").css("left",Math.round(playerObj.X-camera.X));
-    $("#Player").css("top",Math.round(playerObj.Y-camera.Y));
+    playerObj.element.css("left",Math.round(playerObj.X-camera.X));
+    playerObj.element.css("top",Math.round(playerObj.Y-camera.Y));
     
     for (var wall of walls){
         //console.log("Updating position of wall "+wall.id);
-        $("#"+wall.id).css("left",Math.round(wall.x1-camera.X));
-        $("#"+wall.id).css("top",Math.round(wall.y1-camera.Y));
+        wall.element.css("left",Math.round(wall.x1-camera.X));
+        wall.element.css("top",Math.round(wall.y1-camera.Y));
     }
     
-    $("#exit").css("left",Math.round(exit.x1-camera.X));
-    $("#exit").css("top",Math.round(exit.y1-camera.Y));
+    exit.element.css("left",Math.round(exit.X-camera.X));
+    exit.element.css("top",Math.round(exit.Y-camera.Y));
 }
 
 function updateUI(){
     
+}
+
+function initSpawn(){
+    //No spawn visual in the actual game, only the level editor.
+    //gameWindow.append("<img id='spawn' class='object' src='img/transparent.gif' width='32' height='32'>");
+    return {X:200,Y:200,type:"spawn"};
+}
+
+function initExit(){
+    gameWindow.append("<img id='exit' class='object' src='img/exit.png'>");
+    $("#exit").css("visibility","hidden");
+    return {"element":$("#exit"),X:-9999999,Y:0,type:"exit",width:96,height:96};
 }
 
 function initInputs(){
@@ -49,19 +61,26 @@ function createWall(left, top, right, bottom){
     var wallid = "wall"+walls.length;
     var height = bottom-top + 1;
     var width = right-left +1;
-    var wall = {id:wallid, x1:left, y1:top, x2:right, y2:bottom};
-    walls.push(wall);
+    var ele;
+    left = Math.round(left);
+    top = Math.round(top);
+    right = Math.round(right);
+    bottom = Math.round(bottom);
+    gameWindow.append("<img id='" + wallid + "' class='object wall' src='img/transparent.gif' height='"+ height +"' width='"+ width +"'>");
+    ele = $("#"+wallid);
+    var wall = {"element":ele, x1:left, y1:top, x2:right, y2:bottom,type:"wall",index:walls.length};
     
-    $("#gameWindow").append("<img id='" + wallid + "' class='object' src='img/transparent.gif' height='"+ height +"' width='"+ width +"'>");
-    $("#"+wallid).css("left",left);
-    $("#"+wallid).css("top",top);
-    $("#"+wallid).css("background-color","white");
-    console.log("Wall created: "+wall.id+","+wall.x1+","+wall.y1+","+wall.x2+","+wall.y2);
+    wall.element.css("left",left);
+    wall.element.css("top",top);
+    
+    walls.push(wall);
+    console.log("Wall created: "+wall.element.css('left')+","+wall.x1+","+wall.y1+","+wall.x2+","+wall.y2);
+    return wall;
 }
 
 function clearWalls(){
     for (var wall of walls){
-        $("#"+wall.id).remove();
+        wall.element.remove();
     }
     walls.length = 0;
 }
@@ -81,7 +100,7 @@ function wallAdjacent(obj,direction){
 }
 
 function updateCameraPosition(){
-    var cameraTargetX = (playerObj.X+playerObj.width/2) - 400 + 4.5*playerObj.Xv;
+    var cameraTargetX = (playerObj.X+playerObj.width/2) - 400 + 3.5*playerObj.Xv;
     var deltaX = cameraTargetX-camera.X;
     camera.X = camera.X + .30 * deltaX;
     
@@ -179,8 +198,6 @@ function getCollisions(){
             var x2 = wall.x2;
             var y2 = wall.y2;
             
-            //if so, then use the more accurate/expensive check to determine if there is a collision
-            //and any additional information
             if (x1 <= x4 && x2 >= x3
             &&  y1 <= y4 && y2 >= y3){
                 selectedWalls.push(wall);
@@ -199,6 +216,8 @@ function getCollisions(){
         var t;
         
         //Iterate through all walls selected as "potentially colliding"
+        //use the more accurate/expensive check to determine if there is a collision
+        //and any additional information
         for (var wall of selectedWalls){
             var m = minkowskiRect(playerObj, wall);
             var x1 = m.x1;
@@ -251,9 +270,10 @@ function getCollisions(){
         var index = getIndexOfSmallestValidTime(timeVal);
         //Evaluate "first" collision, i.e. the collision with the lowest time value from 0-1.
         if (index != -1){
+            
+            //timeVal Will place object at collision point, which means inside the object, overlapping by 1 pixel
+            //So we use timeValAdj, which has the same math, but with an offset wall boundary
             t = timeValAdj[index];
-            // Will place object at collision point, which means inside the object, overlapping by 1 pixel
-            // Needs something to offset this one pixel intersection
 
             playerObj.X = Math.round(playerObj.X+(1-baseTime)*t*Xv);
             playerObj.Y = Math.round(playerObj.Y+(1-baseTime)*t*Yv);
@@ -278,8 +298,11 @@ function getCollisions(){
             break;
         }
     }
+    
+    //Rounds X and Y positions to integers, because it's nicer to the collision detection algorithm
     playerObj.X = Math.round(playerObj.X);
     playerObj.Y = Math.round(playerObj.Y);
+    
     //Clears and updates the standingOn and nextTo arrays of the player
     playerObj.standingOn.length = 0;
     playerObj.nextTo.length = 0;
@@ -317,11 +340,11 @@ function getCollisions(){
     
     //Determine collision for level exit.
     
-    x1 = exit.x1;
-    y1 = exit.y1;
-    x2 = exit.x2;
-    y2 = exit.y2;
-
+    x1 = exit.X;
+    y1 = exit.Y;
+    x2 = exit.X + exit.width-1;
+    y2 = exit.Y + exit.height-1;
+    //console.log("y2: "+y2);
     x3 = playerObj.X;
     x4 = playerObj.X+playerObj.width-1;
     y3 = playerObj.Y;
@@ -329,13 +352,46 @@ function getCollisions(){
     
     if (x1 <= x4 && x2 >= x3
         &&  y1 <= y4 && y2 >= y3){
-        exit.stagefunc();
+        //console.log("Exit touched");
+        currentstage++;
+        currentstage = currentstage%stages.length;
+        loadLevel(stages[currentstage]);
     }
-        
+    
     
     
 }
 
+function init(){
+    gameTimer = setInterval(mainLoop, 1000/tickFreq)
+    gameWindow = $("#gameWindow");
+    //Create player
+    playerObj = {'X':-99999,'Y':0,'Xv':0,'Yv':0,'width':32,'height':32,'standingOn':[],'nextTo':[],wantsWallJump:0};
+    gameWindow.append("<img id='Player' class='object' src='img/transparent.gif'>");
+    playerObj.element = $("#Player");
+    playerObj.element.css("left",playerObj.X+"px");
+    playerObj.element.css("top",playerObj.Y+"px");
+    playerObj.element.css("width",playerObj.width+"px");
+    playerObj.element.css("height",playerObj.height+"px");
+    playerObj.element.css("visibility","visible");
+    playerObj.Walljumping = 0;
+    debugInfo = $("#debugInfo");
+    spawn = initSpawn();
+    exit = initExit();
+    exit.element.css("visibility","visible");
+    exit.element.css("left",exit.X+"px");
+    exit.element.css("top",exit.Y+"px");
+    initInputs();
+    currentstage = 0;
+    stages = [];
+
+    stages.push("d2WB3WB9W82WU2Wr3WJ6WJ4WG1Wh6WCAWI7Wc8Wr3W2AW87Wx-VN1WF1WI7Wx-Vu-VQAWU1Wt0WS1WQAWH7WD1WS5WX2Wh6Wy2WAxV33WNzVy2W7yVH4WEyVE4W0xVM4WQzV65WHxVN5WZxV65W2yVQ5WSzV");
+    stages.push("Z2Wr5WQ7WlyVv1Wx6W86WJ8W01Wg4W-3WK5W86WP+V47WJ8We3WfyVS4WK5We3W+xV09WgyV39W+xVi9WT+V86WP+Vi9W2-V01WB5Wx1WJ8W");
+    stages.push("d8WF2W1EW+4WS6WH-V27W37W27Wb6WYDW37W7DWa6W2GW37W5AWa-VGAWz1W-AW+2WLDWS4WS6Wu+VrGWe-VQ8W+2WK0WW4W1GW6-VrGW37WQ8WQ4Wg8WG5WdCWN4WLDWt6W");
+    stages.push("76Wy5WYBWn4Wi4WS5WG5W29WG5WX8WWAW29WWAWP6WVEW+6W76WU6WY6WV7WWAWT6WzAW29Wi4Wi3WD6WX5W");
+
+    loadLevel(stages[0]);
+}
 
 function mainLoop(){
 
@@ -346,7 +402,7 @@ function mainLoop(){
     var Yv = playerObj.Yv;
 
     //Gravity
-    playerObj.Yv += 2.5;
+    playerObj.Yv += 3.0;
     
     //Key inputs
     
@@ -357,30 +413,31 @@ function mainLoop(){
             playerObj.Yv = -20.0
             console.log("Jump successful");
         }
-        else{
+        else{//check if the player is holding a direction key
             //wall on left, jump to the right
-            if (keystates[2] && wallAdjacent(playerObj,"left")){
-                playerObj.Yv = -15.0
-                playerObj.Xv = 20.0
-                //Walljumping disables arrow momentum for 4 game ticks.
-                playerObj.Walljumping = 4;
-            }
-            //wall on right, jump to the left
-            if (keystates[4] && wallAdjacent(playerObj,"right")){
-                playerObj.Yv = -15.0
-                playerObj.Xv = -20.0
-                playerObj.Walljumping = 4;
+            if (keystates[2] || keystates[4]){
+                playerObj.wantsWallJump = 3; //for 3 ticks, player will walljump automatically if conditions are met
             }
         }
-
-
-        //Check if jump and an arrow key is pressed.
-        //left
-
         
-
-    
     }
+    
+    //walljumping buffered
+    if (keystates[2] && playerObj.wantsWallJump > 0 && wallAdjacent(playerObj,"left") && playerObj.Walljumping == 0){
+        playerObj.Yv = -17.0
+        playerObj.Xv = 20.0
+        //Walljumping disables arrow momentum for 4 game ticks.
+        playerObj.Walljumping = 4;
+    }
+    //wall on right, jump to the left
+    if (keystates[4] && playerObj.wantsWallJump > 0 && wallAdjacent(playerObj,"right") && playerObj.Walljumping == 0){
+        playerObj.Yv = -17.0
+        playerObj.Xv = -20.0
+        //Walljumping disables arrow momentum for 4 game ticks.
+        playerObj.Walljumping = 4;
+    }
+    
+    
     
     //When Z is held
     if (keystates[0]){
@@ -393,15 +450,19 @@ function mainLoop(){
     
     //left
     if (keystates[2] && playerObj.Walljumping == 0){
-        playerObj.Xv += -2.4
+        playerObj.Xv += -2.2
     }
     //right
     if (keystates[4] && playerObj.Walljumping == 0){
-        playerObj.Xv += 2.4
+        playerObj.Xv += 2.2
     }
     
     if (playerObj.Walljumping > 0){
         playerObj.Walljumping--;
+    }
+        
+    if (playerObj.wantsWallJump > 0){
+        playerObj.wantsWallJump--;
     }
     
     /*
@@ -415,8 +476,8 @@ function mainLoop(){
     }
     */
     
-    playerObj.Xv = playerObj.Xv*0.85;
-    playerObj.Yv = playerObj.Yv*0.85;
+    playerObj.Xv = playerObj.Xv*0.89;
+    playerObj.Yv = playerObj.Yv*0.91;
     if (playerObj.Xv*playerObj.Xv < .1){
         playerObj.Xv = 0;
     }
@@ -431,25 +492,16 @@ function mainLoop(){
 
     prevkeystates = keystates.slice();
     //Display keystates in the debug menu
-    $("#debugInfo").empty();
+    debugInfo.empty();
     for (var index in keystates){
-        $("#debugInfo").append(indexToChar[index]+": "+keystates[index]+"<br/>");
+        debugInfo.append(indexToChar[index]+": "+keystates[index]+"<br/>");
     }
-    $("#debugInfo").append("X: "+playerObj.X+"<br/>");
-    $("#debugInfo").append("Y: "+playerObj.Y+"<br/>");
-    $("#debugInfo").append("Xv: "+playerObj.Xv+"<br/>");
-    $("#debugInfo").append("Yv: "+playerObj.Yv+"<br/>");
-    $("#debugInfo").append("Collision: "+collision+"<br//");
+    debugInfo.append("X: "+playerObj.X+"<br/>");
+    debugInfo.append("Y: "+playerObj.Y+"<br/>");
+    debugInfo.append("Xv: "+playerObj.Xv+"<br/>");
+    debugInfo.append("Yv: "+playerObj.Yv+"<br/>");
+    debugInfo.append("Collision: "+collision+"<br//");
     //$("#debugInfo").append("CanWallJump: "+canwalljump+"<br//");
-}
-
-function placeExit(X,Y, func){
-
-    exit.x1 = X;
-    exit.y1 = Y;
-    exit.x2 = X+96;
-    exit.y2 = Y+96;
-    exit.stagefunc = func;
 }
 
 function movePlayer(X,Y){
@@ -457,93 +509,126 @@ function movePlayer(X,Y){
     playerObj.Y = Y;
 }
 
-function initStage1(){
+function loadLevel(str){
+    if (str.length < 6 || str.length%3 != 0 ){
+
+        $("#levelcode").empty();
+        $("#levelcode").prop("value","INVALID");
+        return 0;
+    }
+
+    var spawnX = decodeStr(str.slice(0,3));
+    var spawnY = decodeStr(str.slice(3,6));
+    
+    var exitX = decodeStr(str.slice(6,9));
+    var exitY = decodeStr(str.slice(9,12));
+    
     clearWalls();
-    movePlayer(100,100);
-    createWall(0,0,1600,1);
-    createWall(0,799,1600,800);
-    
-    createWall(0,0,1,800);
-    createWall(1599,0,1600,800);
 
-    createWall(0,275,1300,275);
+    if (spawn == null){
+        spawn = initSpawn();
+    }
+    spawn.X = spawnX;
+    spawn.Y = spawnY;
     
-    createWall(375,250,475,325);
+    playerObj.X = spawn.X;
+    playerObj.Y = spawn.Y;
     
-    createWall(575,200,675,325);
-    placeExit(1200,180, initStage2);
-}
-
-function initStage2(){
-    clearWalls();
-    movePlayer(100,100);
-    createWall(0,0,1600,1);
-    createWall(0,799,1600,800);
-    
-    createWall(0,0,1,800);
-    createWall(1599,0,1600,800);
-
-    createWall(0,275,1300,275);
-    
-    createWall(375,100,400,325);
-    
-    createWall(265,0,290,200);
-    
-    placeExit(1200,180, initStage3);
-}
-
-function initStage3(){
-    clearWalls();
-    movePlayer(100,100);
-    createWall(0,0,1600,1);
-    createWall(0,799,1600,800);
-    
-    createWall(0,0,1,800);
-    createWall(1599,0,1600,800);
-
-    createWall(0,500,1600,500);
-    
-    createWall(400,425,425,450);
-    for (var i = 1; i < 4; i++){
-        createWall(400+25*i,450-50*i,425+25*i,450);
+    if (exit == null){
+        exit = initSpawn();
     }
     
-    for (var i = 0; i < 7; i++){
-        createWall(600+125*i,275,650+125*i,300);
+    exit.X = exitX;
+    exit.Y = exitY;
+    
+    var x1;
+    var y1;
+    var x2;
+    var y2;
+    
+    for (var i = 0; i < (str.length-12)/12 ;i++){
+        x1 = decodeStr(str.slice(12+12*i,15+12*i))
+        y1 = decodeStr(str.slice(15+12*i,18+12*i))
+        x2 = decodeStr(str.slice(18+12*i,21+12*i))
+        y2 = decodeStr(str.slice(21+12*i,24+12*i))
+        createWall(x1,y1,x2,y2);
     }
-    createWall(1400,275,1600,276);
-    
-    //createWall(265,0,290,200);
-    
-    placeExit(1500,180, initStage1);
 }
 
+function encodeInt(val){
+    console.log("encoding value "+val);
+    maxlength = 3;
+    min = -Math.pow(alphabet.length,maxlength)/2;
+    max = -min - 1;
+    if (val >= min && val <= max){
+        val -= min;
+        
+        //console.log("adjusted value "+val);
+        //console.log("min value: "+min);
+        //console.log("max value: "+max);
+        s="";
+        
+        var index;
+        for (i=1;i<=maxlength;i++){
+            r = val%Math.pow(alphabet.length,i)
+            //console.log(r);
+            index = r/Math.pow(alphabet.length,i-1);
+            //console.log(index);
+            s = s+alphabet[index];
+            val -= r;
+        }
+    return s;
+    }
+    else{
+        return "!INVALID INTEGER!";
+    }
+}
+
+function decodeStr(str){
+    
+    var c;
+    var val = 0;
+    for (var i = 0; i < str.length; i++){
+        c = alphabetmap[str.charAt(i)];
+        val += c * Math.pow(alphabet.length,i);
+    }
+    var min = -Math.pow(alphabet.length,maxlength)/2;
+    //console.log("Decoding "+str+" = "+ (val + min + 1));
+    return val + min;
+}
+
+function initAlphabetMap(){
+    alphabetmap = [];
+    for (var i in alphabet){
+        alphabetmap[alphabet[i]] = i;
+    } 
+}
 
 //Program starting point, creates global variables, and initializes them
+var maxlength = 3;
+var alphabet = ("1234567890ABCDEFGHIJKLMNOPQWSTUVWXYZabcdefghijklmnopqrstuvwxyz+-");
+var alphabetmap;
+initAlphabetMap();
+
 var tickFreq = 30 //number of updates per second
-var gameTimer = setInterval(mainLoop, 1000/tickFreq);
+var gameTimer;
 var keyToIndex = {"90":0, "88":1, "37":2, "38":3, "39":4, "40":5}
 var indexToChar = ["z","x","left", "up", "right","down"];
 //z, x, left, up, right, down
 var keystates = [false,false,false,false,false,false];
 //used to detect single presses
 var prevkeystates = [false,false,false,false,false,false];
-var playerObj = {'imgId': "Player", 'X':0,'Y':0,'Xv':0,'Yv':0,'width':32,'height':32,'standingOn':[],'nextTo':[]};
+var playerObj
 var enemies = [];
 var walls = [];
-var exit = {};
+var exit;
 var collision = "none";
 var camera = {X:0,Y:0};
+var spawn;
+var gameWindow;
+var debugInfo;
+var spawn;
+var currentstage;
+var stages;
 
-//Create player
-$("#gameWindow").append("<img id='Player' class='object' src='img/transparent.gif'>");
-$("#Player").css("width",playerObj.width+"px");
-$("#Player").css("height",playerObj.height+"px");
-playerObj.Walljumping = 0;
-
-//Create exit img
-$("#gameWindow").append("<img id='exit' class='object' src='img/exit.png' height='96' width='96'>");
-
-initInputs();
-
-initStage1();
+window.onload = init();
