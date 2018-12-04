@@ -202,8 +202,8 @@ function initInputs(){
                         if (spawn == null){
                             spawn = initSpawn();
                         }
-                        spawn.X = mouseCurrentX;
-                        spawn.Y = mouseCurrentY;
+                        spawn.X = mouseCurrentX-camera.X;
+                        spawn.Y = mouseCurrentY-camera.Y;
                         
                         break;
                     case 2:
@@ -212,8 +212,8 @@ function initInputs(){
                         if (exit == null){
                             exit = initExit();
                         }
-                        exit.X = mouseCurrentX;
-                        exit.Y = mouseCurrentY;
+                        exit.X = mouseCurrentX-camera.X;
+                        exit.Y = mouseCurrentY-camera.Y;
                         break;
                     case 3:
                         //select an object
