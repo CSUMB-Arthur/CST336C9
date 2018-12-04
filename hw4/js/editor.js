@@ -134,8 +134,8 @@ function initExit(){
 function init(){
     gameWindow = $("#gameWindow");
 
-    timer = setInterval(updateInfo,50)
-    timer2 = setInterval(updateImgPositions,50)
+    timer = setInterval(updateInfo,18)
+    timer2 = setInterval(updateImgPositions,18)
     spawn = initSpawn();
     walls = [];
     selected = null;

@@ -94,16 +94,16 @@ function clearWalls(){
     }
     walls.length = 0;
 }
-    
+
 function wallAdjacent(obj,direction){
-    for (var wall of walls){
-        if (wall.x2 == obj.X-1 && direction == "left"){
-            return true;
-        }
-        
-        if (wall.x1 == obj.X+obj.width && direction == "right"){
-            return true;
-        }
+    for (var wall of playerObj.nextTo){
+            if (wall.x2 == obj.X-1 && direction == "left"){
+                return true;
+            }
+            
+            if (wall.x1 == obj.X+obj.width && direction == "right"){
+                return true;
+            }
     }
 
     return false;
@@ -131,7 +131,7 @@ function updateCameraPosition(){
     camera.Y = camera.Y + .40 * deltaY;
 }
 
-function getIndexOfSmallestValidTime(somearray){
+function getIndexOfSmallestValidTime(somearray,someadjustedarray){
     if (somearray.length <= 0){
         return -1;
     }
@@ -140,11 +140,18 @@ function getIndexOfSmallestValidTime(somearray){
     for (var index in somearray){
         if (somearray[index] >= 0 && somearray[index] <= 1){
             if (somearray[index] <= min){
+                
                 if (somearray[index] == min){
-                    console.log("Two equal T values at "+min+" "+ somearray[index]);
+                    if (someadjustedarray[index] < someadjustedarray[minIndex]){
+                        console.log("Two equal T values at "+min+" "+ somearray[index]);
+                        minIndex = index;
+                        min = somearray[index];
+                    }
                 }
-                minIndex = index;
-                min = somearray[index];
+                else{
+                    minIndex = index;
+                    min = somearray[index];
+                }
             }
             
         }
@@ -277,7 +284,7 @@ function getCollisions(){
             
         }
         
-        var index = getIndexOfSmallestValidTime(timeVal);
+        var index = getIndexOfSmallestValidTime(timeVal, timeValAdj);
         //Evaluate "first" collision, i.e. the collision with the lowest time value from 0-1.
         if (index != -1){
             
@@ -316,6 +323,7 @@ function getCollisions(){
     //Clears and updates the standingOn and nextTo arrays of the player
     playerObj.standingOn.length = 0;
     playerObj.nextTo.length = 0;
+
     
     //Determine which walls the player is standing on, or next to, and store for
     //later use
@@ -337,7 +345,7 @@ function getCollisions(){
         }
         
         //One pixel left/right of the player
-        x3 = playerObj.X;
+        x3 = playerObj.X-1;
         x4 = playerObj.X+playerObj.width;
         y3 = playerObj.Y;
         y4 = playerObj.Y+playerObj.height-1;
