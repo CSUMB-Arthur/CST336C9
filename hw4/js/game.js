@@ -55,6 +55,16 @@ function initInputs(){
                 
             }
         )
+        
+    $("#loadLevel").click(
+        function(e){
+            str = $("#levelcode").prop("value");
+            stages.length = 0;
+            stages.push(str)
+            loadLevel(str);
+        }
+    );
+    
 }
 
 function createWall(left, top, right, bottom){
