@@ -1,0 +1,21 @@
+    #adopt{
+        text-align: center;
+        margin: 0 auto;
+    }
+    
+    #petListing{
+        text-align: left;
+        
+    }
+    
+    .infoGroup{
+        border: 0px solid black;
+    }
+    
+    .animalListImg{
+        float:left;
+        margin-left: 18px;
+        margin-top: -15px;
+        margin-right: 20px;
+    }
+    
