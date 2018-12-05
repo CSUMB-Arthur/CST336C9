@@ -202,8 +202,8 @@ function initInputs(){
                         if (spawn == null){
                             spawn = initSpawn();
                         }
-                        spawn.X = mouseCurrentX+camera.X;
-                        spawn.Y = mouseCurrentY+camera.Y;
+                        spawn.X = Math.round(mouseCurrentX+camera.X);
+                        spawn.Y = Math.round(mouseCurrentY+camera.Y);
                         
                         break;
                     case 2:
@@ -212,8 +212,8 @@ function initInputs(){
                         if (exit == null){
                             exit = initExit();
                         }
-                        exit.X = mouseCurrentX+camera.X;
-                        exit.Y = mouseCurrentY+camera.Y;
+                        exit.X = Math.round(mouseCurrentX+camera.X);
+                        exit.Y = Math.round(mouseCurrentY+camera.Y);
                         break;
                     case 3:
                         //select an object
