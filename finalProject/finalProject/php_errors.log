@@ -1,0 +1,131 @@
+[09-Dec-2018 00:40:35 UTC] PHP Warning:  Missing argument 1 for getDatabaseConnection(), called in /home/ubuntu/workspace/finalProject/php/student.php on line 46 and defined in /home/ubuntu/workspace/finalProject/php/dbconnection.php on line 2
+[09-Dec-2018 00:40:35 UTC] PHP Stack trace:
+[09-Dec-2018 00:40:35 UTC] PHP   1. {main}() /home/ubuntu/workspace/finalProject/php/student.php:0
+[09-Dec-2018 00:40:35 UTC] PHP   2. getDatabaseConnection() /home/ubuntu/workspace/finalProject/php/student.php:46
+[09-Dec-2018 00:41:12 UTC] PHP Warning:  Missing argument 1 for getDatabaseConnection(), called in /home/ubuntu/workspace/finalProject/php/student.php on line 46 and defined in /home/ubuntu/workspace/finalProject/php/dbconnection.php on line 2
+[09-Dec-2018 00:41:12 UTC] PHP Stack trace:
+[09-Dec-2018 00:41:12 UTC] PHP   1. {main}() /home/ubuntu/workspace/finalProject/php/student.php:0
+[09-Dec-2018 00:41:12 UTC] PHP   2. getDatabaseConnection() /home/ubuntu/workspace/finalProject/php/student.php:46
+[09-Dec-2018 01:06:26 UTC] PHP Warning:  include(dbconnection.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/finalProject/php/student.php on line 45
+[09-Dec-2018 01:06:26 UTC] PHP Stack trace:
+[09-Dec-2018 01:06:26 UTC] PHP   1. {main}() /home/ubuntu/workspace/finalProject/php/student.php:0
+[09-Dec-2018 01:06:26 UTC] PHP Warning:  include(): Failed opening 'dbconnection.php' for inclusion (include_path='.:/usr/share/php:/usr/share/pear') in /home/ubuntu/workspace/finalProject/php/student.php on line 45
+[09-Dec-2018 01:06:26 UTC] PHP Stack trace:
+[09-Dec-2018 01:06:26 UTC] PHP   1. {main}() /home/ubuntu/workspace/finalProject/php/student.php:0
+[09-Dec-2018 01:06:26 UTC] PHP Fatal error:  Call to undefined function getDatabaseConnection() in /home/ubuntu/workspace/finalProject/php/student.php on line 46
+[09-Dec-2018 01:06:26 UTC] PHP Stack trace:
+[09-Dec-2018 01:06:26 UTC] PHP   1. {main}() /home/ubuntu/workspace/finalProject/php/student.php:0
+[10-Dec-2018 01:49:11 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ubuntu/workspace/finalProject/api/getClassInfo.php on line 31
+[10-Dec-2018 01:49:30 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ubuntu/workspace/finalProject/api/getClassInfo.php on line 31
+[10-Dec-2018 02:20:06 UTC] PHP Fatal error:  Cannot use [] for reading in /home/ubuntu/workspace/finalProject/api/updateClass.php on line 2
+[10-Dec-2018 02:26:21 UTC] PHP Parse error:  syntax error, unexpected 'echo' (T_ECHO) in /home/ubuntu/workspace/finalProject/api/updateClass.php on line 3
+[10-Dec-2018 02:26:33 UTC] PHP Parse error:  syntax error, unexpected 'echo' (T_ECHO) in /home/ubuntu/workspace/finalProject/api/updateClass.php on line 3
+[10-Dec-2018 02:27:45 UTC] PHP Parse error:  syntax error, unexpected 'echo' (T_ECHO) in /home/ubuntu/workspace/finalProject/api/updateClass.php on line 3
+[10-Dec-2018 02:28:48 UTC] PHP Parse error:  syntax error, unexpected 'echo' (T_ECHO) in /home/ubuntu/workspace/finalProject/api/updateClass.php on line 3
+[10-Dec-2018 02:29:29 UTC] PHP Parse error:  syntax error, unexpected 'echo' (T_ECHO) in /home/ubuntu/workspace/finalProject/api/updateClass.php on line 3
+[10-Dec-2018 03:17:42 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens' in /home/ubuntu/workspace/finalProject/api/updateClass.php:15
+Stack trace:
+#0 /home/ubuntu/workspace/finalProject/api/updateClass.php(15): PDOStatement->execute(Array)
+#1 {main}
+  thrown in /home/ubuntu/workspace/finalProject/api/updateClass.php on line 15
+[10-Dec-2018 03:17:49 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens' in /home/ubuntu/workspace/finalProject/api/updateClass.php:15
+Stack trace:
+#0 /home/ubuntu/workspace/finalProject/api/updateClass.php(15): PDOStatement->execute(Array)
+#1 {main}
+  thrown in /home/ubuntu/workspace/finalProject/api/updateClass.php on line 15
+[10-Dec-2018 03:19:46 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens' in /home/ubuntu/workspace/finalProject/api/updateClass.php:15
+Stack trace:
+#0 /home/ubuntu/workspace/finalProject/api/updateClass.php(15): PDOStatement->execute(Array)
+#1 {main}
+  thrown in /home/ubuntu/workspace/finalProject/api/updateClass.php on line 15
+[10-Dec-2018 03:22:55 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens' in /home/ubuntu/workspace/finalProject/api/updateClass.php:16
+Stack trace:
+#0 /home/ubuntu/workspace/finalProject/api/updateClass.php(16): PDOStatement->execute(Array)
+#1 {main}
+  thrown in /home/ubuntu/workspace/finalProject/api/updateClass.php on line 16
+[10-Dec-2018 03:27:56 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens' in /home/ubuntu/workspace/finalProject/api/updateClass.php:16
+Stack trace:
+#0 /home/ubuntu/workspace/finalProject/api/updateClass.php(16): PDOStatement->execute(Array)
+#1 {main}
+  thrown in /home/ubuntu/workspace/finalProject/api/updateClass.php on line 16
+[10-Dec-2018 08:58:03 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens' in /home/ubuntu/workspace/finalProject/api/updateClass.php:15
+Stack trace:
+#0 /home/ubuntu/workspace/finalProject/api/updateClass.php(15): PDOStatement->execute(Array)
+#1 {main}
+  thrown in /home/ubuntu/workspace/finalProject/api/updateClass.php on line 15
+[10-Dec-2018 08:58:47 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens' in /home/ubuntu/workspace/finalProject/api/updateClass.php:15
+Stack trace:
+#0 /home/ubuntu/workspace/finalProject/api/updateClass.php(15): PDOStatement->execute(Array)
+#1 {main}
+  thrown in /home/ubuntu/workspace/finalProject/api/updateClass.php on line 15
+[10-Dec-2018 08:59:01 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens' in /home/ubuntu/workspace/finalProject/api/updateClass.php:15
+Stack trace:
+#0 /home/ubuntu/workspace/finalProject/api/updateClass.php(15): PDOStatement->execute(Array)
+#1 {main}
+  thrown in /home/ubuntu/workspace/finalProject/api/updateClass.php on line 15
+[10-Dec-2018 08:59:07 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens' in /home/ubuntu/workspace/finalProject/api/updateClass.php:15
+Stack trace:
+#0 /home/ubuntu/workspace/finalProject/api/updateClass.php(15): PDOStatement->execute(Array)
+#1 {main}
+  thrown in /home/ubuntu/workspace/finalProject/api/updateClass.php on line 15
+[10-Dec-2018 08:59:39 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens' in /home/ubuntu/workspace/finalProject/api/updateClass.php:15
+Stack trace:
+#0 /home/ubuntu/workspace/finalProject/api/updateClass.php(15): PDOStatement->execute(Array)
+#1 {main}
+  thrown in /home/ubuntu/workspace/finalProject/api/updateClass.php on line 15
+[10-Dec-2018 23:46:17 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens' in /home/ubuntu/workspace/finalProject/api/addClass.php:14
+Stack trace:
+#0 /home/ubuntu/workspace/finalProject/api/addClass.php(14): PDOStatement->execute(Array)
+#1 {main}
+  thrown in /home/ubuntu/workspace/finalProject/api/addClass.php on line 14
+[10-Dec-2018 23:48:10 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens' in /home/ubuntu/workspace/finalProject/api/addClass.php:14
+Stack trace:
+#0 /home/ubuntu/workspace/finalProject/api/addClass.php(14): PDOStatement->execute(Array)
+#1 {main}
+  thrown in /home/ubuntu/workspace/finalProject/api/addClass.php on line 14
+[10-Dec-2018 23:48:18 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens' in /home/ubuntu/workspace/finalProject/api/addClass.php:14
+Stack trace:
+#0 /home/ubuntu/workspace/finalProject/api/addClass.php(14): PDOStatement->execute(Array)
+#1 {main}
+  thrown in /home/ubuntu/workspace/finalProject/api/addClass.php on line 14
+[10-Dec-2018 23:49:54 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens' in /home/ubuntu/workspace/finalProject/api/addClass.php:14
+Stack trace:
+#0 /home/ubuntu/workspace/finalProject/api/addClass.php(14): PDOStatement->execute(Array)
+#1 {main}
+  thrown in /home/ubuntu/workspace/finalProject/api/addClass.php on line 14
+[10-Dec-2018 23:52:04 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens' in /home/ubuntu/workspace/finalProject/api/addClass.php:14
+Stack trace:
+#0 /home/ubuntu/workspace/finalProject/api/addClass.php(14): PDOStatement->execute(Array)
+#1 {main}
+  thrown in /home/ubuntu/workspace/finalProject/api/addClass.php on line 14
+[11-Dec-2018 00:08:40 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY093]: Invalid parameter number: no parameters were bound' in /home/ubuntu/workspace/finalProject/php/deleteClass.php:14
+Stack trace:
+#0 /home/ubuntu/workspace/finalProject/php/deleteClass.php(14): PDOStatement->execute(NULL)
+#1 {main}
+  thrown in /home/ubuntu/workspace/finalProject/php/deleteClass.php on line 14
+[11-Dec-2018 00:29:43 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.' in /home/ubuntu/workspace/finalProject/api/addClass.php:17
+Stack trace:
+#0 /home/ubuntu/workspace/finalProject/api/addClass.php(17): PDO->query('INSERT INTO cla...')
+#1 {main}
+  thrown in /home/ubuntu/workspace/finalProject/api/addClass.php on line 17
+[11-Dec-2018 00:30:13 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.' in /home/ubuntu/workspace/finalProject/api/addClass.php:17
+Stack trace:
+#0 /home/ubuntu/workspace/finalProject/api/addClass.php(17): PDO->query('INSERT INTO cla...')
+#1 {main}
+  thrown in /home/ubuntu/workspace/finalProject/api/addClass.php on line 17
+[11-Dec-2018 00:31:20 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.' in /home/ubuntu/workspace/finalProject/api/addClass.php:17
+Stack trace:
+#0 /home/ubuntu/workspace/finalProject/api/addClass.php(17): PDO->query('INSERT INTO cla...')
+#1 {main}
+  thrown in /home/ubuntu/workspace/finalProject/api/addClass.php on line 17
+[11-Dec-2018 00:31:42 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.' in /home/ubuntu/workspace/finalProject/api/addClass.php:17
+Stack trace:
+#0 /home/ubuntu/workspace/finalProject/api/addClass.php(17): PDO->query('INSERT INTO cla...')
+#1 {main}
+  thrown in /home/ubuntu/workspace/finalProject/api/addClass.php on line 17
+[11-Dec-2018 05:25:00 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ':course_id, :room_number, :days_of_week, :time, :semester, :start_date);
+       ' at line 3' in /home/ubuntu/workspace/finalProject/api/addClass.php:17
+Stack trace:
+#0 /home/ubuntu/workspace/finalProject/api/addClass.php(17): PDO->query('INSERT INTO cla...')
+#1 {main}
+  thrown in /home/ubuntu/workspace/finalProject/api/addClass.php on line 17

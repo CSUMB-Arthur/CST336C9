@@ -1,0 +1,83 @@
+    body{
+        background-color: white;
+        text-align: left;
+    }
+    
+    header{
+        text-align: center;
+    }
+    
+    .classInfoInput{
+        display:block;
+        padding: 5px;
+        width: 80%;
+    }
+    
+#studentsHideButton, #number, #dateHideButton, #costHideButton, #countHideButton, #cost, #latest, #classCount{
+    display:none;
+}
+
+#reports{
+    text-align: center;
+    margin: auto;
+    background-color: lightgray;
+    width: 50%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+#tHead{
+   font-weight: bold !important; 
+}
+body
+{
+    background-color: #84B1C3;
+}
+
+.searchCategory{
+    background-color: transparent;
+    margin-left: 44%;
+}
+
+.csumbStripes tr:nth-child(odd){
+    background-color: lightyellow;
+}
+
+.csumbStripes tr:nth-child(even){
+    background-color: lightblue;
+}
+
+
+#searchForm{
+    text-align: left;
+}
+
+#courseSearchBtn{
+    text-align: center;
+    margin: 0 auto;
+}
+.searchOptionsList{
+    margin-left: 45%;
+    text-align: left;
+}
+
+.thread-light{
+    background-color: lightgray;
+}
+
+.topbar
+{
+    background-color: #3170A3;
+    font-family: 'Playfair Display';
+    color:#082033;
+    text-align: center;
+    
+}
+.bottombar
+{
+    background-color: #C3C3B9;
+    text-align: center;
+    color:#082033;
+}
+.col-lg-6
+{text-align:right;}
