@@ -32,7 +32,7 @@
     </form>";
     
     echo "<form action='logout.php'>
-        <input type='submit' class= 'btn btn-secondary' id='beginning' name='addproduct' value='Log out' />
+        <input type='submit' class= 'btn btn-secondary' id='beginning' name='log out' value='Log out' />
     </form>";
     
     

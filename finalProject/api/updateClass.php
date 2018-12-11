@@ -12,7 +12,16 @@
             WHERE class_id = :id; --:course_name";
 
     $stmt = $conn -> prepare($sql);
-    $stmt -> execute($somearray);
+    
+        $np = array();
+    $np[':course_id'] = $somearray[':course_id'];
+    $np[':room_number'] = $somearray[':room_number'];
+    $np[':days_of_week'] = $somearray[':days_of_week'];
+    $np[':time'] = $somearray[':time'];
+    $np[':semester'] = $somearray[':semester'];
+    $np[':start_date'] = $somearray[':start_date'];
+    $np[':id'] = $somearray[':id'];
+    $stmt -> execute($np);
     
 
 
